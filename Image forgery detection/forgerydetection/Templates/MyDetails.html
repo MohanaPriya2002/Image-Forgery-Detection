@@ -1,0 +1,283 @@
+ {% extends 'base.html'%}
+    {% block content%}
+
+
+
+
+
+<!-- Registration start   -->
+
+
+<div style="height: 613px">
+
+
+
+<div class="container-fluid">
+
+  <div class="col-md-12 ">
+{% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+
+   
+
+
+
+
+<!-- ModelPopup -->
+
+<div id="myModal"  class="modal fade" role="dialog" >
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"  style="color: red" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Select Package</h4>
+      </div>
+    <form method="POST" class="post-form" action="/UpdateSubscription/" id="form2">  
+        {% csrf_token %}  
+
+
+      <div class="modal-body">
+
+       
+
+       <div class="row" >
+          <div class="col-md-6">
+            <label for="first_name" style="color: #343a40;font-weight: bold;">User Id</label>
+            <input type="text" class="form-control" readonly="true" placeholder="Id" name="UserId" id="UserId">
+          </div>
+       </div>
+       <br> 
+       <div class="row" >
+        <div class="col-md-12 text-left">
+          <label for="first_name" style="color: #343a40;font-weight: bold;">Select Package</label>
+          <select name="Package" id="Package" class="form-control">
+            <option value="Select">Select</option>
+            <option value="Half Yearly">Half Yearly</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+        </div>
+       </div>
+       <br>
+       <div class="row" >
+          <div class="col-md-6">
+            <label for="first_name" style="color: #343a40;font-weight: bold;">Credit-card No</label>
+            <input type="text" class="form-control" placeholder="Credit-card " name="CCNumber" id="CCNumber">
+          </div>
+          <div class="col-md-6 text-left">
+            <label style="color: black"  for="validationTooltip02">Expiry</label>
+            <div class="row" >
+            <div class="col-md-6">            
+                <input type="text" class="form-control" placeholder="MM" name="Month" id="Month">
+            </div>
+            <div class="col-md-6 text-left">
+                <input type="text" class="form-control" placeholder="YY" name="Year" id="Year">
+            </div>
+            </div>
+
+          </div>
+       </div>
+       <br>
+
+       <div class="row" >
+          <div class="col-md-6">
+            <label for="first_name" style="color: #343a40;font-weight: bold;">cvv</label>
+            <input type="text" class="form-control" placeholder="cvv" name="Cvv" id="Cvv">
+          </div>
+         
+       </div>
+       <br>
+
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-success" onclick="Validate()" >Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+
+
+  </form>
+    </div>
+
+  </div>
+</div>
+<!-- ModelPopup end -->
+
+
+ <form class="form-horizontal" action='/Register/' method="POST" id="form1"> 
+    {% csrf_token %}
+
+{% for or in users %}
+
+	<div class="col-md-12" style="background-color: grey;margin-top: 9%;">
+
+		<div class="form-row">
+			<div class="row">
+			<div class="col-md-9"> 
+
+				<h3 class="card-title" style="color:white;margin-left: 60%;margin-top: 35px;font-size: 30px">Details</h3>
+
+			</div>
+			<div class="col-md-3">
+<br>
+				<span style="color: white;margin-top:10px">
+					Your Subcription ends on {{or.ExpiryDate}}
+					</span>
+				<br>
+
+        {% if ans == 'Yes' %}
+				<input type="button" name="" style="margin-left: 80px;margin-top: 10px" onclick="showmodel()" class="btn btn-danger" value="Subscribe"> 
+        {% endif %}
+
+
+			 </div>
+			</div>
+	 		
+			<hr style=" border-top:  2px solid white">
+		</div>
+			
+
+		<div class="form-row">
+          <div class="col-md-12 "style="margin-bottom: 20px">
+            <label for="first_name" style="color: white;font-weight: bold;">Name</label>
+		<input type="text" name="first_name" id="first_name" readonly="true" value="{{or.FirstName}} {{or.LastName}}"  placeholder="First Name" class="form-control ">
+
+    <input type="hidden" name="hfid" id="hfid" value="{{or.id}}" >
+          </div>
+        </div>
+
+
+
+		<div class="form-row">
+          <div class="col-md-6 "style="margin-bottom: 20px">
+            <label for="first_name" style="color: white;font-weight: bold;">Username</label>
+		<input type="text" name="first_name" id="first_name" readonly="true"  placeholder="First Name" value="{{or.Username}}" class="form-control ">
+          </div>
+          <div class="col-md-6 "style="margin-bottom: 20px">
+            <label style="color: white"  for="validationTooltip02">Email</label>
+            <input type="text" class="form-control" readonly="true" name="last_name" id="last_name" value="{{or.Email}}"  placeholder="Last name" value="" >
+          </div>
+          
+        </div>
+
+
+        <div class="form-row">
+         
+          <div class="col-md-6 "style="margin-bottom: 20px">
+            <label for="Mobile"   style="color: white;font-weight: bold;">Mobile</label>
+     		<input type="number" id="Mobile" name="Mobile"  readonly="true" value="{{or.mobile}}" placeholder="Mobile Number" class="form-control ">
+          
+          </div>
+        </div>
+
+
+       <div class="form-row">
+          <div class="col-md-12 "style="margin-bottom: 20px">
+            <label for="Address"  style="color: white;font-weight: bold;">Address</label>
+            <textarea rows="3"  placeholder="address" readonly="true"  class="form-control "> {{or.Address}} </textarea>	
+          </div>
+    	</div>
+
+    	<div class="form-row">
+          <div class="col-md-6 "style="margin-bottom: 20px">
+             <label for="State"  style="color: white;font-weight: bold;">City</label>
+         <input type="text"  id="City"   name="City" readonly="true" value="{{or.City}}" placeholder="City" class="form-control ">
+          </div>
+
+           <div class="col-md-6 "style="margin-bottom: 20px">
+             <label for="State"  style="color: white;font-weight: bold;">State</label>
+         <input type="text" id="State" name="State" readonly="true" value="{{or.State}}"  placeholder="State" class="form-control ">
+          </div>
+    	</div>
+
+
+
+         <br><br> 
+
+
+	    <div class="col-md-12  text-center" style="margin-top: 5px">
+			<br>
+			<hr style=" border-top:  2px solid white">
+		</div>
+
+		
+
+	</div>
+	<br><br>
+
+
+{% endfor %}
+
+    </form>
+<div class="col-md-12 divsign">
+	<div class="col-md-8 paddn">
+<br><br>
+	</div>
+	
+	</div>
+
+  </div>
+<br><br>
+</div>
+</div>
+<!-- Registration end   -->
+
+<script type="text/javascript">
+
+
+
+  function showmodel()
+  {
+    document.getElementById('UserId').value = document.getElementById('hfid').value;
+    $('#myModal').modal('show');
+  }
+  
+
+
+  function Validate()
+  {
+
+      if (document.getElementById('Package').value !=  "Select")
+      {
+            if (document.getElementById('CCNumber').value !=  "")
+            {
+                if (document.getElementById('Month').value !=  "" && document.getElementById('Year').value !=  "")
+                {
+                    if (document.getElementById('Cvv').value !=  "")
+                    {
+                        document.getElementById('form2').submit()
+                        return true;
+                    }
+                    else
+                    {
+                        alert('Enter Cvv');
+                        return false;
+                    }
+                }
+                else
+                {
+                    alert('Enter Expiry Date');
+                    return false; 
+                }
+            }
+            else
+            {
+                alert('Enter CreditCard');
+                return false;
+            }
+      }
+      else
+      {
+          alert('Enter Package');
+          return false;
+      }
+  }
+
+</script>
+   {% endblock%}
+

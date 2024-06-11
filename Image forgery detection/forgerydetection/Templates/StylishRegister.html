@@ -1,0 +1,264 @@
+ {% extends 'base.html'%}
+    {% block content%}
+
+
+
+
+
+<!-- Registration start   -->
+
+
+<div style="background-color: #d2d1d1">
+
+
+
+<div class="container-fluid">
+
+  <div class="col-md-12 ">
+{% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+
+    <form class="form-horizontal" action='/StylishRegister/' enctype="multipart/form-data" method="POST" id="form1"> 
+    {% csrf_token %}
+
+
+
+	<div class="col-md-12" style="background-color: grey;margin-top: 9%;">
+				 <h3 class="card-title text-center" style="color:white">USER DETAILS</h3>
+			<hr style=" border-top:  2px solid white">
+
+
+
+		<div class="form-row">
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label for="first_name" style="color: white;font-weight: bold;">NAME</label>
+		<input type="text" name="name" id="name"  placeholder="Name" class="form-control ">
+          </div>
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label style="color: white"  for="validationTooltip02">AGE</label>
+            <input type="number" class="form-control" name="contact" id="contact"  placeholder="Age" value="" >
+          </div>
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label style="color: white" for="validationTooltipUsername">EDUCATION</label>
+              <input type="text" class="form-control" name="emailid" id="emailid" placeholder="education" value="">
+          </div>
+        </div>
+
+
+        <div class="form-row">
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label for="email"  style="color: white;font-weight: bold;">USERNAME</label>
+		  <input type="text" name="Username" id="Username"  placeholder="Username"class="form-control ">
+          </div>
+
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label for="first_name" style="color: white;font-weight: bold;">PASSWORD</label>
+		<input type="password" name="Password" id="Password"  placeholder="Password" class="form-control ">
+          </div>
+
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label for="first_name" style="color: white;font-weight: bold;">DATE OF DETECTION</label>
+		<input type="Date" name="Speciality" id="Speciality"  placeholder="Date of detection" class="form-control ">
+          </div>
+         
+        </div>
+
+         <div class="form-row">         
+          <div class="col-md-4 "style="margin-bottom: 20px">
+           <label for="Address"  style="color: white;font-weight: bold;">OCCUPATION</label>
+         <input type="text"  id="Address"  name="Address"  placeholder="occupation" class="form-control ">
+          
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label for="email"  style="color: white;font-weight: bold;">ORIGINAL PHOTO</label>
+		  <input type="file" name="Image1" id="Image1" class="form-control ">
+          </div>
+
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label for="first_name" style="color: white;font-weight: bold;">TEST PHOTO</label>
+		<input type="file" name="Image2" id="Image2" class="form-control ">
+          </div>
+          
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label for="Mobile"   style="color: white;font-weight: bold;">YOUR PHOTO</label>
+     		<input type="file" id="Image3" name="Image3"  class="form-control ">
+          
+          </div>
+        </div>
+
+
+
+          <div class="form-row">
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label for="email"  style="color: white;font-weight: bold;">GAURDIAN PHOTO</label>
+		  <input type="file" name="Image4" id="Image4" class="form-control ">
+          </div>
+
+          <div class="col-md-4 "style="margin-bottom: 20px">
+            <label for="first_name" style="color: white;font-weight: bold;">ID PHOTO</label>
+		<input type="file" name="Image5" id="Image5" class="form-control ">
+          </div>
+          
+    
+        </div>
+
+
+
+
+         <br><br> 
+
+
+	    <div class="col-md-12  text-center" style="margin-top: 5px">
+
+			<input type="button" class="btn btn-success" name="" value="GO" onclick="check()">
+			<br>
+			<hr style=" border-top:  2px solid white">
+		</div>
+
+		
+
+	</div>
+	<br><br>
+
+    </form>
+<div class="col-md-12 divsign">
+	<div class="col-md-8 paddn">
+<br><br>
+	</div>
+	
+	</div>
+
+  </div>
+<br><br>
+</div>
+</div>
+
+<!-- Registration end   -->
+
+
+
+<script type="text/javascript">
+	
+	function check() 
+	{ 
+		
+		if (document.getElementById('name').value !=  "")
+		{
+			if (document.getElementById('contact').value !=  "")
+			{
+				if (document.getElementById('emailid').value !=  "")
+				{
+					if (document.getElementById('Username').value !=  "")
+					{
+						if (document.getElementById('Password').value !=  "")
+						{
+							if (document.getElementById('Address').value !=  "")
+							{
+								if (document.getElementById('Speciality').value !=  "")
+								{
+									if (document.getElementById('Image1').value !=  "")
+									{
+										if (document.getElementById('Image2').value !=  "")
+										{
+											if (document.getElementById('Image3').value !=  "")
+											{
+												if (document.getElementById('Image4').value !=  "")
+												{
+													if (document.getElementById('Image5').value !=  "")
+													{
+														document.getElementById('form1').submit()
+														return true;
+													}
+													else
+													{
+														alert('Enter Image5');
+														return false;
+													}
+												}
+												else
+												{
+													alert('Enter Image4');
+													return false;
+												}
+											}
+											else
+											{
+												alert('Enter Image3');
+												return false;
+											}
+										}
+										else
+										{
+											alert('Enter Image2');
+											return false;
+										}
+									}
+									else
+									{
+										alert('Enter Image1');
+										return false;
+									}
+								}
+								else
+								{
+									alert('Enter Speciality');
+									return false;
+								}
+							}
+							else
+							{
+								alert('Enter Address');
+								return false;
+							}
+							
+						}
+						else
+						{
+							alert('Enter Password');
+							return false;
+						}
+						
+					}
+					else
+					{
+						alert('enter Username');
+						return false;
+					}
+				}
+				else
+				{
+					alert('Enter emailid');
+					return false;
+				}
+			}
+			else
+			{
+				alert('Enter contact');
+				return false;
+			}
+		}
+		else
+		{
+			alert('Enter name');
+			return false;
+		}
+		
+		
+	}
+
+</script>
+
+
+
+
+    {% endblock%}
+
+

@@ -1,0 +1,142 @@
+
+ {% extends 'base.html'%}
+
+
+
+
+{% block content %}
+<div id="" style="height: 600px">
+
+
+{% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+       <div class="modal-header">
+        <button type="button" class="close" style="color: red" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center" style="color: black">UPDATE PLAN</h4>
+      </div>
+     <div class="modal-body">
+        <form class="form-horizontal" action='/UpdateSubs/'  method="POST" id="signup-form">
+        {% csrf_token %}
+
+  
+      <div class="row">
+          <div class="col-md-6 "style="margin-bottom: 20px">
+            <label for='Question' style='color: #343a40;font-weight: bold;'>Half-Yearly Price</label>
+            <input type='number' name='half' required="true" id='half' value="{{half}}"  class='form-control '>
+          </div>
+
+          <div class="col-md-6 "style="margin-bottom: 20px">
+            <label for='Question' style='color: #343a40;font-weight: bold;'>Yearly Price</label>
+            <input type='number' name='year' required="true" id='year' value="{{year}}" class='form-control '>
+          </div>
+         
+           
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="subit" class="btn btn-success" >Update</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+      < /form>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="col-md-12 " style="margin-top: 4%;margin-bottom: 3%">
+        <br>
+        <center>
+            <div class="col-sm-4"  style="margin-left: 450px"><h2 style="border-color: #2a5868">CHOOSE YOUR PLAN </h2>
+            <hr>
+            </div>
+        </center>
+</div>
+
+
+<div class="container-fluid" style="margin-top: 1%;padding:5%;">    
+<br><br>
+
+<div class="row">
+  <div class="col-md-12 text-right"  >
+    <input type="button" class="btn btn-info" style="margin-right: 37px" name="" data-toggle="modal" data-target="#myModal" value="UPDATE PRICES">
+    
+  </div>
+</div>
+
+  <div class="row">
+
+    <div class="col-md-1"></div>
+    <div class="col-md-3 text-center" style="background-color: #7db34c;border-radius:25px; padding: 30px ;margin: 30px;height: 225px">
+      <span style="font-size: 20px;color: white"> STARTER </span>
+      <hr>
+
+       <p style="color: white;font-size: 15px"><span style="font-size: 30px;color: white"> ₹ Free</span>/month</p>
+       <p style="font-size: 15px;color: white"> For a month</p>
+
+       <hr>
+    </div>
+
+     <div class="col-md-3 text-center" style="background-color: #83dac6;border-radius:25px; padding: 30px ;margin: 30px;height: 225px">
+      <span style="font-size: 20px;color: white"> HALF-YEARLY </span>
+      <hr>
+
+       <p style="color: white;font-size: 15px"><span style="font-size: 30px;color: white"> ₹ {{half}}</span>/month</p>
+       <p style="font-size: 15px;color: white"> For a month</p>
+
+       <hr>
+    </div>
+
+     <div class="col-md-3 text-center" style="background-color: #7db34c;border-radius:25px; padding: 30px ;margin: 30px;height: 225px">
+      <span style="font-size: 20px;color: white"> YEARLY </span>
+      <hr>
+
+       <p style="color: white;font-size: 15px"><span style="font-size: 30px;color: white"> ₹ {{year}}</span>/month</p>
+       <p style="font-size: 15px;color: white"> For a month</p>
+
+       <hr>
+    </div>
+
+
+    
+
+  </div>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

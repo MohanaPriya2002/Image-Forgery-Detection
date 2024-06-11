@@ -1,0 +1,141 @@
+
+ {% extends 'base.html'%}
+
+
+
+
+{% block content %}
+<div id="" style="">
+
+
+{% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+
+
+
+
+
+
+
+
+<div class="col-md-12 " style="margin-top: 4%;margin-bottom: 3%">
+        <br>
+        <center>
+            <div class="col-sm-3"  style="margin-left: 500px"><h2 style="border-color: #2a5868">VIEW USERS </h2>
+            </div>
+        </center>
+    </div>
+
+
+<div class="container-fluid" style="margin-top: 1%;padding:5%;">    
+<br><br>
+
+
+
+<center>
+
+{% if users %}  
+    <div id="MyProducts table-responsive"  style="height: 400px;margin-top: 3%">
+    <table class="table table-striped table-bordered table-sm" style="margin-top: 30px;" >  
+    <thead class="thead-dark" style="background-color: #2a5868;color: white">  
+    <tr>  
+        <th>FirstName </th>
+        <th>LastName </th>
+        <th>Username </th>
+        <th>Email </th>
+        <th>mobile </th>
+        <th>Address </th>
+        <th>City </th>
+        <th>State </th>
+   
+    </tr>  
+    </thead>  
+    <tbody style="background-color: white;color: black;height: 300px">  
+
+    {% for or in users %}  
+        <tr>   
+
+            <td>{{or.FirstName}} </td>
+            <td>{{or.LastName}} </td>
+            <td>{{or.Username}} </td>
+            <td>{{or.Email}} </td>
+            <td>{{or.mobile}} </td>
+            <td>{{or.Address}} </td>
+            <td>{{or.City}} </td>
+            <td>{{or.State}} </td>
+            
+                        
+        </tr> 
+    {% endfor %}      
+
+    </tbody>  
+    </table>
+    </div>
+{% else %} 
+
+
+ <div class="col-md-12 table-responsie" style="height: 400px">
+        <br>
+        <center><div class="col-sm-3"  style="background-color: #2a5868;margin-left: 450px"><h6 style="color: white;border-color: #2a5868">NO DATA FOUND </h6></div>
+            </center>
+    </div>
+
+
+ {% endif %} 
+
+</div>
+
+
+
+
+
+</div>
+</div>
+
+
+<script type="text/javascript">
+  
+$( document ).ready(function() {
+    
+  if(document.getElementById('hCount').value != '')
+    { 
+        if(document.getElementById('hCount').value > '3')
+        { 
+            document.getElementById('maindiv').style.height = null;                
+        }
+                        
+    }
+});
+
+
+function view(me)
+{
+
+    var id = me.id;
+    var str = id.split("%");
+    var ids  =str[0];
+    var Designation = str[1];
+    var Salary = str[2];
+    var WorkPlace = str[3];
+    var Experience = str[4];
+    var Qualification = str[5];
+    var Skills  =str[6];
+    
+
+    document.getElementById("Designation").value = Designation;
+    document.getElementById("Salary").value = Salary;
+    document.getElementById("WorkPlace").value = WorkPlace;
+    document.getElementById("Experience").value = Experience;
+    document.getElementById("Qualification").value = Qualification;
+    document.getElementById("Skills").value = Skills;
+
+    $('#myModal').modal('show');
+}
+
+</script>
+{% endblock %}

@@ -1,0 +1,461 @@
+ {% extends 'base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+
+
+<style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 29px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
+
+
+
+<div style="height: 650px;margin-top: 5%">
+
+
+    <div  style="margin-top: 1%;padding:1%">
+     <center>
+      <div>
+        <h2 style="color: black"> Chat</h2>
+        <hr>
+      </div>
+    </center>
+
+
+
+<div class="row">
+    <div class="col-md-3">
+            
+         <div class="col-md-12"  style="background-color: #dad4d4; height: 550px;">
+
+           <div class="panel panel-default panel-heading" style="margin-top: 10px">Active Users</div>
+
+           <div style="height: 450px;overflow-y: scroll;overflow-x: hidden;width: 100%'"> 
+            {% for or in users %}  
+              <div class="row" style="background-color: white;height:50px;width: 100%;">
+              <div class="col-md-7 text-center" style="margin-top: 18px;">
+              {{or.FirstName}} {{or.LastName}}
+              </div>
+              <div class="col-md-5 text-right" style="margin-top: 15px;">
+              <input type="button" class="btn-success" value="select" id="{{or.id}}" name="{{or.id}}" onclick="selectUsers(this)">
+              </div>
+
+              </div>
+           
+
+            {% endfor %}
+
+           </div>
+          
+           
+
+         </div>
+
+
+    </div>
+    <div class="col-md-9">
+        
+        <!--div 1 -->   
+    <div id="chatdiv" class="col-md-12" style="background-color: #dad4d4;">
+
+    <div class="col-md-12"  style=" height: 480px; margin-top: 1%;padding:1%">
+        
+
+         <div id='maindiv'class=' mx-auto rounded mt-3' style='background-color: #dad4d4; height: 450px;overflow-y: scroll;overflow-x: hidden;' >
+
+            <div class='col-md-12' id="chat" >
+              
+            <div id="Hellodiv" class='col-md-12 shadow-lg p-2  p-3 mb-1 rounded mt-3 float-right text-center' style='background-color: #47d3da;border-style: solid;  border-color: black; overflow: auto; z-index: 55;margin-left: 3px'><br><span style="color: white;font-size:large; ;margin-right: 10px">Stylist Chatbot</span><br><br>
+            </div>          
+
+            <div id="activitydiv" >
+
+            
+
+
+              
+
+
+            </div>
+
+            <input type="hidden" name="hfUserid" id="hfUserid" value="">
+            <input type="hidden" name="MessageType" id="MessageType" value="Text">
+            <input type="hidden" name="hfImage" id="hfImage" value="">
+
+          </div> 
+            
+         </div>
+
+
+    </div>
+
+
+   <form class="form-signin" id="Submitform" enctype="multipart/form-data"  method="POST">
+                  {% csrf_token %}
+        <div class="col-md-12"  style="background-color: white;margin-top: 1%;padding:1%">
+              <div class="col-md-1">
+                <label class="switch">
+                    <input type="checkbox" id="imgchk" onchange="showimage(this)">
+                    <span class="slider round"></span>
+                  </label>
+              </div>
+             <div class="col-md-10">
+              <div id="textdiv">
+                <input type="text" class="col-md-10 form-control" required="" id="inputtext" name="inputtext" placeholder="Type here....">
+              </div>
+              <div id="filediv" style="display: none">
+                <input type="file" class="col-md-10 form-control" required="" onchange="encodeImageFileurl()" id="inputtextFile" name="inputtextFile" placeholder="Type here....">
+              </div>
+            
+           </div>
+           <div class="col-md-1">
+            <input type="button" class="btn btn-success" name="temp" id="temp" value="Submit" onclick="Chatreply()">
+            
+           </div>
+        </div>
+
+    </form>
+
+  </div>
+<!--div 1  ended-->
+
+
+    </div>
+</div>
+
+
+
+
+
+
+    </div>
+</div>
+<br>
+
+
+<script type="text/javascript">
+
+
+  var interval;
+
+function showimage(me)
+{
+  var id = me.id;
+
+
+  if($('#'+id).is(':checked'))
+  {
+    document.getElementById("filediv").style.display = "block";
+    document.getElementById("textdiv").style.display = "none";
+    document.getElementById("MessageType").value = "Image";
+  }
+  else
+  {
+     document.getElementById("filediv").style.display = "none";
+    document.getElementById("textdiv").style.display = "block";
+    document.getElementById("MessageType").value = "Text";
+
+  }
+  
+  
+}
+
+function selectUsers(me)
+{
+  var id = me.id;
+  document.getElementById("hfUserid").value = id; 
+  clearInterval(interval); 
+  StartInterval();
+}
+
+
+function StartInterval()
+{
+  if(document.getElementById("hfUserid").value != "")
+  {
+    interval = setInterval(function()
+      {     
+         chatfill()
+      }, 5000);
+  }
+      
+
+}
+
+
+function encodeImageFileurl()
+{
+  fileselect = document.getElementById("inputtextFile").files;
+  if(fileselect.length > 0)
+  {
+    var fileselect = fileselect[0];
+    var fileReader = new FileReader();
+
+    fileReader.onload = function(FileLoadEvent){
+      var srcdata = FileLoadEvent.target.result;
+      //alert("Data = "+srcdata)
+      document.getElementById("hfImage").value = srcdata;
+      
+    }
+    fileReader.readAsDataURL(fileselect)
+
+  }
+}
+
+
+
+function Chatreply()
+  {
+    
+      var text = $("#inputtext").val();  
+      var Uid = $("#hfUserid").val();  
+      var MessageType = $("#MessageType").val();  
+
+      if(Uid != "")
+      {
+          
+              if(MessageType == "Text")
+              {
+
+                if(text != "")
+                {
+                  $.ajax({
+                  type: "POST",
+                      url: '{% url 'StylishChatreply' %}',
+                      data: 
+                      {
+                          'text': text,
+                          'Uid':Uid,
+                          'MessageType':MessageType,
+
+
+                          'csrfmiddlewaretoken': '{{ csrf_token }}',
+
+                      },
+                      //dataType: 'json',
+                      success: function (data) 
+                      {
+
+                        var reply = data["respond"];
+
+                        if(reply == "Success")
+                        {
+                          chatfill();
+                        }                         
+                      }
+                    })
+                  }
+                  else
+                  {
+                  alert("Kindly Select image or enter text");
+                  }
+              }
+              else
+              {
+                var image = document.getElementById("hfImage").value; 
+
+
+                if(image != "")
+                {
+
+                
+                  $.ajax({
+                      type: "POST",
+                      url: '{% url 'StylishChatreply' %}',
+                      enctype: 'multipart/form-data',
+                      data: 
+                      {
+                          'image': image,
+                          'Uid':Uid,
+                          'MessageType':MessageType,
+
+                          'csrfmiddlewaretoken': '{{ csrf_token }}',
+
+                      },
+                      //dataType: 'json',
+                      success: function (data) 
+                      {
+
+                        var reply = data["respond"];
+
+                        if(reply == "Success")
+                        {
+                          chatfill();
+                        }                         
+                      }
+                    })
+
+                   }
+                  else
+                  {
+                  alert("Kindly Select image or enter text");
+                  }
+              }
+          
+              document.getElementById("inputtext").value = "";
+      }
+      else
+      {
+      alert("Kindly Select User");
+      }
+    
+  }
+
+
+
+
+function chatfill()
+  {
+   document.getElementById('activitydiv').innerHTML = "";
+   var Uid = $("#hfUserid"). val();
+
+    $.ajax({
+      type: "POST",
+          url: '{% url 'FillStylishChat' %}',
+          data: 
+          {
+              'Uid':Uid,
+
+              'csrfmiddlewaretoken': '{{ csrf_token }}',
+
+          },
+          //dataType: 'json',
+          success: function (data) 
+          {
+
+              var reply = data["respond"];
+
+              if(reply != "")
+              {
+                reply = reply.slice(0, -1)
+
+                var res = reply.split("#");
+
+                for(var i = 0; i < res.length; i++)
+                {
+                    var spec = res[i].split("&");
+                    var chattype = spec[0]
+                    var chatcontent = spec[1]
+                    var chatmessagefrom = spec[2]
+                    var chatdatetime = spec[3]
+
+                    if(chatmessagefrom != "User")
+                    {
+                         
+                          if(chattype == "Text")
+                          {
+                            $("<div class='col-md-7 shadow-lg p-2 w-100 p-3 mb-1  rounded mt-3' style='background-color: aliceblue; overflow: auto; z-index: 55;margin: 15px;margin-left:41%;'><br /><span>" + chatcontent + "</span><br /><span style='font-size: smaller; float:right; font-weight: bold;margin-bottom: 10px'>" + chatdatetime + "</span></div>" ).appendTo( "#activitydiv" );
+                          }
+                          else
+                          {
+                            
+
+                            $("<div class='col-md-12'><div class='col-md-3 shadow-lg p-2 w-100 p-3 mb-1  rounded mt-3' style='background-color: aliceblue; overflow: auto; z-index: 55;margin: 15px;margin-left:75%;'><br /><img src=" + chatcontent + " style='width: 180px;height: 150px;margin-bottom: 10px' alt='Italian Trulli'> <br /><span style='font-size: smaller; float:right; font-weight: bold;margin-bottom: 10px'>" + chatdatetime + "</span></div></div>" ).appendTo( "#activitydiv" );
+
+
+
+                            //$( "<div class='col-md-12'><div class='col-md-3 shadow-lg p-2 w-100 p-3 mb-1 rounded mt-3 text-left ' style='background-color: antiquewhite; overflow: auto; z-index: 55;margin: 15px'><br />  <img src=" + chatcontent + " style='width: 180px;height: 150px;margin-bottom: 10px' alt='Italian Trulli'>  <br /><span style='font-size: smaller; float:right; font-weight: bold;margin-bottom: 10px'>" + chatdatetime + "</span></div></div>" ).appendTo( "#activitydiv" );
+                          } 
+                      
+                    }
+                    else
+                    {
+
+
+                      if(chattype == "Text")
+                          {
+                            $( "<div class='col-md-7 shadow-lg p-2 w-100 p-3 mb-1 rounded mt-3 text-left ' style='background-color: antiquewhite; overflow: auto; z-index: 55;margin: 15px'><br /><span>" + chatcontent + "</span><br /><span style='font-size: smaller; float:right; font-weight: bold;margin-bottom: 10px'>" + chatdatetime + "</span></div>" ).appendTo( "#activitydiv" );
+                          }
+                          else
+                          {
+                            
+
+                            $( "<div class='col-md-12'><div class='col-md-3 shadow-lg p-2 w-100 p-3 mb-1  rounded mt-3' style='background-color: aliceblue; overflow: auto; z-index: 55;margin: 15px;margin-left:75%;'><br /><img src=" + chatcontent + " style='width: 180px;height: 150px;margin-bottom: 10px' alt='Italian Trulli'> <br /><span style='font-size: smaller; float:right; font-weight: bold;margin-bottom: 10px'>" + chatdatetime + "</span></div></div>" ).appendTo( "#activitydiv" );
+                          }
+                    }
+
+                }
+ 
+                $('#maindiv').animate({scrollTop:  $('#maindiv').prop("scrollHeight")});
+
+              }
+
+            
+          
+              
+          }
+            
+
+        })
+    
+}
+
+
+
+</script>
+
+    {% endblock%}

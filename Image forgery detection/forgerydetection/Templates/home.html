@@ -1,0 +1,15 @@
+ {% extends 'base.html'%}
+    {% block content%}
+
+    
+{% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    <div style="background: url('media/img/images/Background2.JFIF'); background-repeat:no-repeat;background-size:cover; color: white; height: 523px;padding: 100px 0 0 0;  ">
+</div
+
+    {% endblock%}
